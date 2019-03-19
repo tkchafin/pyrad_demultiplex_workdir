@@ -1,0 +1,61 @@
+PBS_NODEFILE=/var/spool/torque/aux//714796.torque PBS_NUM_NODES=1 PBS_PPN=32 PBS_PPA=32
+	Loading Intel 14.0.3: Warning - module intel already loaded
+
+
+
+     ------------------------------------------------------------
+      pyRAD : RADseq for phylogenetics & introgression analyses
+     ------------------------------------------------------------
+
+
+	step 1: sorting reads by barcode
+	 .PBS Job Statistics:
+
+PBS Input:
+#!/bin/bash
+
+#PBS -N pyrad
+#PBS -q q72h32c
+#PBS -j oe
+#PBS -o pyrad_demult.out
+#PBS -m abe
+#PBS -M tkchafin@email.uark.edu
+#PBS -l nodes=1:ppn=32
+#PBS -l walltime=30:00:00
+#PBS -V 
+
+PATH=$PATH:/home/mussmann/local/bin/:/home/mrd1/acamel/local/bin
+
+module purge
+module load gcc/4.9.1 mkl python/2.7.11 muscle 
+
+DIR=/storaged/tkchafin/demult
+TEM=$DIR/template_params.txt
+WRK=$DIR/L1711-02_IDX5
+BAR=$DIR/L1711-02_Idx5_barcodes.txt
+FAS=$DIR/L1711-02_IDX5_S11_L005_R1_001.fastq.gz
+
+cd $DIR
+mkdir $WRK
+sed "s@%WRK@$WRK@" $TEM | sed "s@%BAR@$BAR@" | sed "s@%FAS@$FAS@" > $WRK/params.txt
+
+cd $WRK
+
+pyrad -p $WRK/params.txt -s 1
+
+
+PBS Job ID: 714796.torque
+Resource List: neednodes=1:ppn=32,nodes=1:ppn=32,walltime=30:00:00
+Resources Used: cput=06:45:42,mem=229112kb,vmem=1306432kb,walltime=06:46:30
+Queue Name: q72h32c
+Program Return Code: 0
+Head Node:
+tres0805
+nnodes=1 ncores=32 njobs=1
+PBS Job Statistics:
+PBS Job ID: 714796.torque
+Resource List: neednodes=1:ppn=32,nodes=1:ppn=32,walltime=30:00:00
+Resources Used: cput=06:45:42,mem=229112kb,vmem=1306432kb,walltime=06:46:30
+Queue Name: q72h32c
+Program Return Code: 0
+Head Node: tres0805

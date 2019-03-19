@@ -1,0 +1,31 @@
+#!/bin/bash
+
+#PBS -N demult_BASE
+#PBS -q q72h32c
+#PBS -j oe
+#PBS -o demult_BASE.out
+#PBS -m abe
+#PBS -M tkchafin@email.uark.edu
+#PBS -l nodes=1:ppn=32
+#PBS -l walltime=30:00:00
+#PBS -V 
+
+PATH=$PATH:/home/mussmann/local/bin/:/home/mrd1/acamel/local/bin
+
+module purge
+module load gcc/4.9.1 mkl python/2.7.11 muscle 
+
+DIR=/storaged/tkchafin/demult
+TEM=$DIR/template_params.txt
+WRK=$DIR/BASE
+BAR=$DIR/BASE_barcodes.txt
+FAS=$DIR/BASE*.fastq.gz
+
+cd $DIR
+mkdir $WRK
+sed "s@%WRK@$WRK@" $TEM | sed "s@%BAR@$BAR@" | sed "s@%FAS@$FAS@" > $WRK/params.txt
+
+cd $WRK
+
+pyrad -p $WRK/params.txt -s 1
+
