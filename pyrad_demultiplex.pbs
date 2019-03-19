@@ -18,7 +18,7 @@ module load gcc/4.9.1 mkl python/2.7.11 muscle
 DIR=/storaged/tkchafin/demult
 TEM=$DIR/template_params.txt
 WRK=$DIR/BASE
-BAR=$DIR/BASE_barcodes.txt
+BAR=$DIR/BASE_barcodes.tsv
 FAS=$DIR/BASE*.fastq.gz
 
 cd $DIR
